@@ -47,4 +47,17 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+  config.order = 'random'
+  config.include FactoryGirl::Syntax::Methods
+  config.before :suite do
+    DatabaseRewinder.clean_all
+  end
+
+  config.before :all do
+    FactoryGirl.reload
+  end
+
+  config.after :each do
+    DatabaseRewinder.clean
+  end
 end
